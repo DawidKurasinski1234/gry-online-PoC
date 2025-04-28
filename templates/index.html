@@ -3,81 +3,59 @@
 {% block content %}
     <section class="bg-gray-100 py-8 px-4">
         <div class="max-w-7xl mx-auto">
-
-            <!-- Główna sekcja top -->
-            <div class="grid md:grid-cols-3 gap-6 mb-10">
-
-                <!-- Duży baner -->
-                <div class="md:col-span-2 relative overflow-hidden rounded-lg">
-                    <img src="https://picsum.photos/800/400?random=1" alt="Banner"
+            <div class="mb-10">
+                <div class="relative overflow-hidden rounded-lg">
+                    <img src="https://images.template.net/376679/Purple-Gaming-Background-edit-online-1.jpg" alt="Banner"
                          class="w-full h-64 object-cover rounded-lg">
-                    <div class="absolute inset-0 bg-black/40 flex items-end p-6 text-white">
-                        <div>
-                            <h2 class="text-xl font-bold">Zdobądź Meteor FR Mk.9 w wydarzeniu Oko na niebie!</h2>
-                            <p class="text-sm opacity-90">Weź udział w bitwach powietrznych i zdobądź unikalne
-                                nagrody!</p>
+                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center text-white">
+                        <div class="text-center">
+                            <h2 class="text-xl font-bold">Zagraj w najpopularniejsze gry już teraz!</h2>
                         </div>
                     </div>
                 </div>
-
-                <!-- Box: Sklep i kod -->
-                <div class="flex flex-col gap-4">
-                    <a href="#" class="relative rounded-lg overflow-hidden border-2 border-yellow-400">
-                        <img src="https://picsum.photos/400/200?random=2" alt="Sklep" class="w-full h-32 object-cover">
-                        <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-yellow-300 font-bold text-lg">
-                            SKLEP
-                        </div>
-                    </a>
-                    <input type="text" placeholder="Wpisz kod"
-                           class="w-full p-3 border border-gray-300 rounded-md bg-white">
+                <div class="mt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-2xl font-semibold text-gray-800">Popularne gry</h3>
+                        <a href="#" class="text-blue-600 hover:underline text-sm">Więcej gier →</a>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        {% for item in news_items %}
+                            <a href="{% url 'game_details' item.id %}" class="bg-white rounded-lg shadow hover:shadow-lg transition relative block" style="max-height: 400px;">
+                                <div class="relative overflow-hidden rounded-t-lg" style="max-height: 200px;">
+                                    {% if forloop.counter == 1 %}
+                                        <img src="{% static 'images/kk.png' %}" alt="Kółko i Krzyżyk" class="w-full h-auto object-contain">
+                                    {% elif forloop.counter == 2 %}
+                                        <img src="{% static 'images/snake.png' %}" alt="Snake" class="w-full h-auto object-contain">
+                                    {% elif forloop.counter == 3 %}
+                                        <img src="{% static 'images/tetris.png' %}" alt="Tetris" class="w-full h-auto object-contain">
+                                    {% elif forloop.counter == 4 %}
+                                        <img src="{% static 'images/unity.png' %}" alt="Unity" class="w-full h-40 object-cover">
+                                    {% else %}
+                                        <img src="{% static item.image %}" alt="{{ item.title }}" class="w-full h-40 object-cover">
+                                    {% endif %}
+                                    {% if item.label %}
+                                        <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
+                                            {{ item.label }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="p-4">
+                                    <h4 class="text-lg font-semibold text-gray-800">
+                                        {{ item.title }}
+                                    </h4>
+                                    {% if item.description %}
+                                        <p class="text-sm text-gray-600">
+                                            {{ item.description }}
+                                        </p>
+                                    {% endif %}
+                                    <p class="text-xs text-gray-500 mt-2">
+                                        {{ item.date }}
+                                    </p>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-
-            <!-- Sekcja wiadomości -->
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-2xl font-semibold text-gray-800">Popularne gry</h3>
-                <a href="#" class="text-blue-600 hover:underline text-sm">Więcej gier →</a>
-            </div>
-
-            <!-- Kafelki wiadomości -->
-            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {# Iterujemy po wiadomościach przekazanych z widoku #}
-
-                {% for item in news_items %}
-
-
-                    <a href="{% url 'game_details' item.id %}" class="bg-white rounded-lg shadow hover:shadow-lg transition relative block">
-
-                        {# Obrazek wiadomości #}
-                        <img src="{{ item.image }}" alt="News"
-                             class="w-full h-40 object-cover rounded-t-lg">
-
-                        {# Jeżeli element ma etykietę – wyświetlamy ją jako badge #}
-                        {% if item.label %}
-                            <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded">
-                                {{ item.label }}
-                            </div>
-                        {% endif %}
-
-                        <div class="p-4">
-                            <h4 class="text-lg font-semibold text-gray-800">
-                                {{ item.title }}
-                            </h4>
-
-                            {# Jeśli jest opis – wyświetlamy #}
-                            {% if item.description %}
-                                <p class="text-sm text-gray-600">
-                                    {{ item.description }}
-                                </p>
-                            {% endif %}
-
-                            <p class="text-xs text-gray-500 mt-2">
-                                {{ item.date }}
-                            </p>
-                        </div>
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-{% endblock %}
+        </section>
+    {% endblock %}

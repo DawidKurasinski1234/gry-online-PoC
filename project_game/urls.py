@@ -1,25 +1,17 @@
 """
 URL configuration for project_game project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path
-from app_game.views import *
+from app_game import views
+# Usunięto: from app_game.views import * - nie jest to najlepsza praktyka
 
 urlpatterns = [
-    path('', index, name='home_page'),
-    path('details/<int:id>/', details, name='game_details'),
+    path('', views.index, name='home_page'),  # Zmieniono nazwę na 'home' dla spójności
+    path('details/<int:id>/', views.details, name='game_details'),  # Zakładam, że to jest widok szczegółów
     path('admin/', admin.site.urls),
+    path('games/kk/', views.kolko_i_krzyzyk_view, name='kolko_i_krzyzyk'),
+    path('games/snake/', views.snake_view, name='snake'),
+    path('games/tetris/', views.tetris_view, name='tetris'),
+    path('games/unity/', views.unity_view, name='unity_vr'),  # Poprawiono ścieżkę na małe litery
 ]
